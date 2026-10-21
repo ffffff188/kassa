@@ -2,158 +2,134 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#eef1f7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0a0f1c" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<meta name="referrer" content="no-referrer">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Дашборд">
+<meta name="apple-mobile-web-app-title" content="Касса">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<title>Дашборд — кассовые отчёты</title>
+<title>Кассовый отчёт</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
-:root{--bg:#eef1f7;--text:#0e1526;--muted:#667089;--surface:#fff;--line:#e4e8f0;--accent:#3a5bdc;--accent-2:#6a5cff;--bad:#d92d3a}
-@media (prefers-color-scheme:dark){:root{--bg:#0a0f1c;--text:#e8ecf6;--muted:#95a1bd;--surface:#121a2c;--line:#243050;--accent:#7b95ff;--accent-2:#a08cff;--bad:#ff7a85}}
+:root{--bg:#eef1f7;--text:#0f172a;--muted:#64748b;--surface:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#0a0f1c;--text:#e7ebf5;--muted:#93a0bb;--surface:#18213a}}
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;overflow:hidden;overscroll-behavior:none;background:var(--bg);font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--text);-webkit-tap-highlight-color:transparent}
+body{padding-top:env(safe-area-inset-top)}
 #app{position:fixed;left:0;right:0;bottom:0;top:env(safe-area-inset-top);width:100%;height:calc(100% - env(safe-area-inset-top));border:0;display:block;background:var(--bg)}
-.screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center;z-index:5;
-  background:radial-gradient(700px 360px at 15% -80px,color-mix(in srgb,var(--accent) 22%,transparent),transparent 70%),radial-gradient(600px 320px at 90% -60px,color-mix(in srgb,var(--accent-2) 20%,transparent),transparent 70%),var(--bg)}
+.screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center;background:var(--bg);z-index:5}
 .screen[hidden]{display:none}
-.screen img{width:84px;height:84px;border-radius:22px;box-shadow:0 14px 34px -10px rgba(70,60,220,.6)}
-.screen h1{margin:0;font-size:20px;letter-spacing:-.01em}
-.screen p{margin:0;color:var(--muted);font-size:14px;max-width:380px;line-height:1.5}
-.spin{width:28px;height:28px;border:3px solid color-mix(in srgb,var(--accent) 25%,transparent);border-top-color:var(--accent);border-radius:50%;animation:s .8s linear infinite}
+.screen img{width:84px;height:84px;border-radius:20px;box-shadow:0 4px 14px rgba(47,85,151,.3)}
+.screen h1{margin:0;font-size:19px}
+.screen p{margin:0;color:var(--muted);font-size:14px;max-width:340px;line-height:1.45}
+.spin{width:28px;height:28px;border:3px solid #c9d3e6;border-top-color:#3a5bdc;border-radius:50%;animation:s .8s linear infinite}
 @keyframes s{to{transform:rotate(360deg)}}
-.btn{border:0;border-radius:13px;padding:12px 22px;font-size:15px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;font-family:inherit;box-shadow:0 8px 20px -6px color-mix(in srgb,var(--accent) 65%,transparent)}
-.btn.ghost{background:var(--surface);color:var(--text);border:1px solid var(--line);box-shadow:none;font-weight:600}
-.box{width:100%;max-width:420px;display:flex;flex-direction:column;gap:10px;margin-top:6px}
-.box input{width:100%;height:48px;border-radius:13px;border:1px solid var(--line);background:var(--surface);color:var(--text);font:inherit;font-size:15px;padding:0 14px}
-.box input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 20%,transparent)}
-.row{display:flex;gap:8px}.row .btn{flex:1}
-.err{color:var(--bad);font-size:13px;font-weight:600;min-height:18px}
-.install{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:6;background:#0e1526;color:#fff;border-radius:16px;padding:10px 12px;display:flex;align-items:center;gap:10px;font-size:13.5px;box-shadow:0 14px 34px rgba(0,0,0,.3);max-width:520px;margin:0 auto}
+.btn{border:0;border-radius:13px;padding:12px 22px;font-size:15px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#3a5bdc,#6a5cff);color:#fff;font-family:inherit}
+.install{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:6;background:#1d2330;color:#fff;border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:10px;font-size:13.5px;box-shadow:0 6px 20px rgba(0,0,0,.25);max-width:520px;margin:0 auto}
 .install[hidden]{display:none}
-.install img{width:38px;height:38px;border-radius:10px}
+.install img{width:36px;height:36px;border-radius:8px}
 .install span{flex:1;line-height:1.35}
-.install .btn{padding:9px 14px;font-size:14px}
+.install .btn{padding:8px 14px;font-size:14px}
 .install .x{background:transparent;border:0;color:#aab;font-size:22px;cursor:pointer;padding:0 4px}
+code{background:var(--surface);padding:2px 5px;border-radius:4px;font-size:12px;word-break:break-all}
 </style>
 </head>
 <body>
 
-<iframe id="app" title="Дашборд" referrerpolicy="no-referrer" hidden></iframe>
+<iframe id="app" title="Кассовый отчёт" allow="clipboard-read; clipboard-write" hidden></iframe>
 
 <div class="screen" id="loading">
   <img src="icon-192.png" alt="">
-  <h1>Дашборд</h1>
+  <h1>Кассовый отчёт</h1>
   <div class="spin"></div>
 </div>
 
 <div class="screen" id="offline" hidden>
   <img src="icon-192.png" alt="">
   <h1>Нет подключения к интернету</h1>
-  <p>Данные дашборда берутся из Google Таблицы, поэтому нужен интернет. Проверьте связь и нажмите «Повторить».</p>
+  <p>Отчёт сохраняется в Google Таблицу, поэтому нужен интернет. Проверьте связь и нажмите «Повторить».</p>
   <button class="btn" id="retry">Повторить</button>
 </div>
 
 <div class="screen" id="setup" hidden>
   <img src="icon-192.png" alt="">
-  <h1>Вставьте ссылку на дашборд</h1>
-  <p>Один раз на этом устройстве. Ссылка приходит в WhatsApp в сообщении в 15:00 («📊 Дашборд») или берётся в Apps Script функцией <b>dashboardLink</b>.</p>
-  <div class="box">
-    <input id="link" type="url" inputmode="url" autocomplete="off" placeholder="https://script.google.com/…?page=dash&k=…">
-    <div class="row"><button class="btn ghost" id="paste" type="button">Вставить из буфера</button><button class="btn" id="save" type="button">Открыть</button></div>
-    <div class="err" id="err"></div>
-  </div>
+  <h1>Приложение ещё не настроено</h1>
+  <p>Откройте файл <b>index.html</b> и вставьте в строку <code>APP_URL</code> ссылку на веб-приложение Apps Script (заканчивается на <code>/exec</code>).</p>
 </div>
 
 <div class="install" id="install" hidden>
   <img src="icon-192.png" alt="">
-  <span id="installText">Установите «Дашборд» — будет открываться как приложение.</span>
+  <span id="installText">Установите «Кассу» на главный экран — будет открываться как приложение.</span>
   <button class="btn" id="installBtn">Установить</button>
   <button class="x" id="installX" aria-label="Закрыть">×</button>
 </div>
 
 <script>
-/* ===== ссылка на веб-приложение Apps Script (…/exec) — та же, что в приложении «Касса» ===== */
+/* ===== НАСТРОЙКА: ссылка на ваше веб-приложение Apps Script (…/exec) ===== */
 const APP_URL = 'https://script.google.com/macros/s/AKfycbzIIttzxoYmuUH41VNQl3h3b36f5bvHt1LbGJ9D_nXJiTtvVS5DFlRzve2SPjEGvQUt/exec';
-/* Секретный ключ дашборда здесь НЕ хранится: он сохраняется только на устройстве ген. директора. */
+/* ========================================================================= */
 
 const $ = id => document.getElementById(id);
 const frame = $('app');
-const ls = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }, del(k){ try { localStorage.removeItem(k); } catch(e){} } };
-const KEY_LS = 'dash-key';
 let loadTimer = null, loaded = false;
 
-// ключ из ссылки: …/dash/#k=КЛЮЧ  или полная ссылка Apps Script с &k=КЛЮЧ
-function keyFrom(text){
-  const m = String(text || '').match(/[#?&]k=([A-Za-z0-9_-]{8,})/);
-  return m ? m[1] : (/^[A-Za-z0-9_-]{16,}$/.test(String(text || '').trim()) ? String(text).trim() : '');
-}
 function show(id){
   ['loading','offline','setup'].forEach(s => $(s).hidden = s !== id);
-  frame.hidden = id !== null && id !== 'loading';
+  frame.hidden = (id === 'offline' || id === 'setup');
 }
+
 function start(){
-  const key = ls.get(KEY_LS);
-  if (!key){ show('setup'); return; }
+  if (!/^https:\/\/script\.google(usercontent)?\.com\/.+/.test(APP_URL)){ show('setup'); return; }
   if (!navigator.onLine){ show('offline'); return; }
-  loaded = false; show('loading');
-  frame.src = APP_URL + '?page=dash&k=' + encodeURIComponent(key);
+  loaded = false;
+  show('loading');
+  frame.src = APP_URL;
   clearTimeout(loadTimer);
   loadTimer = setTimeout(() => { if (!loaded) show('offline'); }, 25000);
 }
-frame.addEventListener('load', () => { if (!frame.src) return; loaded = true; clearTimeout(loadTimer); show(null); });
+
+frame.addEventListener('load', () => {
+  if (!frame.src) return;
+  loaded = true; clearTimeout(loadTimer);
+  show(null);
+});
 $('retry').onclick = start;
-addEventListener('online', () => { if (!loaded) start(); });
-addEventListener('offline', () => { if (!loaded) show('offline'); });
+window.addEventListener('online', () => { if (!loaded) start(); });
+window.addEventListener('offline', () => { if (!loaded) show('offline'); });
 
-function saveLink(text){
-  const k = keyFrom(text);
-  if (!k){ $('err').textContent = 'Это не похоже на ссылку дашборда. В ней должно быть «k=…».'; return false; }
-  ls.set(KEY_LS, k); $('err').textContent = ''; start(); return true;
-}
-$('save').onclick = () => saveLink($('link').value);
-$('link').addEventListener('keydown', e => { if (e.key === 'Enter') saveLink($('link').value); });
-$('paste').onclick = async () => {
-  try { const t = await navigator.clipboard.readText(); $('link').value = t; saveLink(t); }
-  catch(e){ $('err').textContent = 'Не удалось прочитать буфер — вставьте ссылку в поле вручную.'; $('link').focus(); }
-};
-
-// ссылка из WhatsApp: …/dash/#k=КЛЮЧ — запоминаем и убираем ключ из адресной строки
-// …/dash/#reset — забыть ссылку на этом устройстве
-function fromHash(){
-  const h = location.hash; if (!h) return false;
-  if (h === '#reset'){ ls.del(KEY_LS); }
-  else { const k = keyFrom(h); if (k) ls.set(KEY_LS, k); }
-  try { history.replaceState(null, '', location.pathname + location.search); } catch(e){}
-  return true;
-}
-fromHash();
-addEventListener('hashchange', () => { if (fromHash()) start(); });
-
-/* ---- установка ---- */
+/* ---- установка на главный экран ---- */
+const ls = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch(e){} } };
 const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
 let deferred = null;
 function offerInstall(text, withBtn){
-  if (standalone || ls.get('dash-install-hide')) return;
-  $('installText').textContent = text; $('installBtn').hidden = !withBtn; $('install').hidden = false;
+  if (standalone || ls.get('kassa-install-hide')) return;
+  $('installText').textContent = text;
+  $('installBtn').hidden = !withBtn;
+  $('install').hidden = false;
 }
-addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; offerInstall('Установите «Дашборд» — будет открываться как приложение.', true); });
-$('installBtn').onclick = async () => { if (!deferred) return; deferred.prompt(); await deferred.userChoice; deferred = null; $('install').hidden = true; };
-$('installX').onclick = () => { $('install').hidden = true; ls.set('dash-install-hide', '1'); };
-addEventListener('appinstalled', () => { $('install').hidden = true; });
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault(); deferred = e;
+  offerInstall('Установите «Кассу» на главный экран — будет открываться как приложение.', true);
+});
+$('installBtn').onclick = async () => {
+  if (!deferred) return;
+  deferred.prompt(); await deferred.userChoice; deferred = null; $('install').hidden = true;
+};
+$('installX').onclick = () => { $('install').hidden = true; ls.set('kassa-install-hide', '1'); };
+window.addEventListener('appinstalled', () => { $('install').hidden = true; });
+// iPhone/iPad: кнопки установки нет — подсказка
 const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-if (isIOS && !standalone) setTimeout(() => offerInstall('Чтобы установить: «Поделиться» ⬆️ внизу Safari → «На экран Домой». После установки один раз вставьте ссылку на дашборд.', false), 2500);
+if (isIOS && !standalone) setTimeout(() => offerInstall('Чтобы установить: нажмите «Поделиться» ⬆️ внизу Safari → «На экран Домой».', false), 2500);
 
+/* ---- service worker: иконка, запуск без адресной строки, экран «нет интернета» ---- */
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
-  navigator.serviceWorker.register('sw.js', { scope: './' }).catch(() => {});
+  navigator.serviceWorker.register('sw.js').catch(() => {});
 }
+
 start();
 </script>
 </body>
