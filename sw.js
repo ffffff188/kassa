@@ -1,6 +1,6 @@
 // Кэширует оболочку приложения, чтобы оно открывалось мгновенно и показывало экран «нет интернета».
 // Данные отчёта не кэшируются — они всегда идут напрямую в Google Таблицу.
-const CACHE = 'kassa-shell-v3';
+const CACHE = 'kassa-shell-v4';
 const SHELL = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'apple-touch-icon.png', 'favicon.png'];
 
 self.addEventListener('install', e => {
